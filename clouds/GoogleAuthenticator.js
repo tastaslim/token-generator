@@ -1,11 +1,11 @@
-import { SCOPE } from '../../config';
+import { SCOPE } from '../config.js';
 import axios from 'axios';
-import { sign } from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { stringify } from "qs";
-import { readJSONSync } from "fs-extra";
+import * as fse from "fs-extra";
 
 export class GoogleAuthenticator {
-  public static async getAccessToken(userId: string): Promise<string> {
+  static async getAccessToken(userId) {
     let privateKey, tokenUrl, secretManagerData;
     if (process.env.ENVIRONMENT == 'LOCAL' || "DEV") {
       /*
@@ -14,7 +14,7 @@ export class GoogleAuthenticator {
       tokenUrl = secretManagerData.token_uri;
       */
     } else {
-      secretManagerData = readJSONSync('/tmp/privateKey.json');
+      secretManagerData = fse.readJSONSync("/tmp/privateKey.json");
       privateKey = secretManagerData.private_key;
       tokenUrl = secretManagerData.token_uri;
     }
@@ -27,7 +27,7 @@ export class GoogleAuthenticator {
       exp: Math.floor(new Date().getTime() / 1000) + 3600,
       iat: Math.floor(new Date().getTime() / 1000)
     };
-    const authCode = sign(claims, privateKey, { algorithm: 'RS256' });
+    const authCode = jwt.sign(claims, privateKey, { algorithm: "RS256" });
     const response = await axios.post(tokenUrl, stringify({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: authCode }));
     return response.data.access_token;
   }

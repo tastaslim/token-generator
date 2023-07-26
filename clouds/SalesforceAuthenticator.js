@@ -1,11 +1,11 @@
-import { readJSONSync } from 'fs-extra';
+import * as fse from 'fs-extra';
 import axios from 'axios';
 import base64url from 'base64url';
 import { createSign } from 'crypto';
 import { stringify } from "qs";
 export class SalesforceAuthenticator {
-  public static async getAccessToken(userId: string): Promise<string> {
-    const secretManagerData = readJSONSync('/tmp/privateKeySalesforce.json');
+  static async getAccessToken(userId) {
+    const secretManagerData = fse.readJSONSync('/tmp/privateKeySalesforce.json');
     const header = { alg: 'RS256' };
     const claimsSet = {
       iss: secretManagerData.client_id,
