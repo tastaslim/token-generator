@@ -1,5 +1,5 @@
 {
-  "name": "authenticator-taslim",
+  "name": "token-generator",
   "version": "2.0.0",
   "description": "Authentication and Authorization Handler for Taslim's API Services",
   "main": "./dist/index.js",
