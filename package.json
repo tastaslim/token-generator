@@ -1,6 +1,6 @@
 {
-  "name": "token-generator-taslim",
-  "version": "2.0.0",
+  "name": "api-token-generator",
+  "version": "1.0.0",
   "description": "Authentication and Authorization Handler for Taslim's API Services",
   "main": "index.js",
   "type": "module",
